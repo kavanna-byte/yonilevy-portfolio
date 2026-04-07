@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projects | Yoni Levy</title>
+  <style>
+    @font-face {
+      font-family: 'wf-heading';
+      src: url('https://static.wixstatic.com/ufonts/c79f9d_b7c1b5ecc22540718679c93c5a404a7d/woff2/file.woff2') format('woff2');
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'wf-medium';
+      src: url('https://static.wixstatic.com/ufonts/c79f9d_03cbc78483fc4a3cb21c18905add3f2d/woff2/file.woff2') format('woff2');
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'wf-body';
+      src: url('https://static.wixstatic.com/ufonts/c79f9d_c147c9b52b264e0a9010651af4711b8c/woff2/file.woff2') format('woff2');
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'wf-nav';
+      src: url('https://static.wixstatic.com/ufonts/c79f9d_37334f6f60bf42efb8660e6f67646722/woff2/file.woff2') format('woff2');
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'wf-hint';
+      src: url('https://static.wixstatic.com/ufonts/c79f9d_7d55195f6322484db7c4466f864bc1e3/woff2/file.woff2') format('woff2');
+      font-display: swap;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #f7f8fd;
+      --dark: #22303e;
+      --mid: #5d6a79;
+      --light: #949494;
+      --blue: #127cf7;
+      --white: #fff;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--dark); overflow-x: hidden; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      background: var(--bg);
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+    }
+    .logo-link { display: flex; align-items: center; text-decoration: none; }
+    .logo-svg { width: 42px; height: 42px; fill: var(--dark); }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--mid);
+      font-family: 'wf-nav', sans-serif;
+      font-size: 18px;   /* ← was 16px, live site = 18px */
+      font-weight: 400;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--dark); font-weight: 600; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      padding-top: 70px;
+      overflow: hidden;
+    }
+    .hero-text {
+      position: relative;
+      z-index: 2;
+      padding-left: 123px;
+      max-width: 806px; /* text area ends where image column begins */
+    }
+    .hero-label {
+      font-family: 'wf-medium', sans-serif;
+      font-size: 18px;
+      font-weight: 400;
+      color: var(--blue);
+      letter-spacing: 0.36px;
+      margin-bottom: 24px;
+      display: block;
+    }
+    .hero-title {
+      font-family: 'wf-heading', sans-serif;
+      font-size: 55px;
+      font-weight: 400;  /* ← was 700, live site = 400 (font itself is heavy) */
+      color: var(--dark);
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+    }
+
+    /* Hero photo: fixed 378×440px, right-aligned with 123px margin */
+    .hero-photo {
+      position: absolute;
+      right: 123px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 378px;
+      height: 440px;
+      z-index: 1;
+    }
+    .hero-photo img {
+      width: 378px;
+      height: 440px;
+      object-fit: contain;
+      object-position: center;
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 44px;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      color: var(--mid);
+      font-family: 'wf-hint', sans-serif;
+      font-size: 16.8px;
+      letter-spacing: 0.03em;
+      white-space: nowrap;
+      z-index: 2;
+    }
+    .scroll-hint svg { display: block; margin: 10px auto 0; }
+
+    /* ── PROJECT SECTIONS ── */
+    /* Layout: left col = 806px (123px pad + 604px img + 79px gap)
+               right col = 727px (604px text + 123px right pad) */
+    .project-section {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+    }
+    .project-section.reverse { flex-direction: row-reverse; }
+
+    /* Image column */
+    .project-img-wrap {
+      width: 806px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      padding: 60px 79px 60px 123px; /* left:123px = content margin, right:79px = gap before text */
+    }
+    .project-section.reverse .project-img-wrap {
+      padding: 60px 123px 60px 79px; /* flipped for right-image */
+    }
+    .project-img-wrap img {
+      width: 604px;
+      height: 609px;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
+
+    /* Text column */
+    .project-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 60px 123px 60px 0; /* right margin 123px, no left padding (text already at x:806) */
+    }
+    .project-section.reverse .project-info {
+      padding: 60px 0 60px 123px; /* left margin for reversed (text on left, x:123) */
+    }
+
+    .project-tag {
+      font-family: 'wf-body', sans-serif;
+      font-size: 18px;
+      font-weight: 400;
+      color: var(--mid);
+      letter-spacing: 0.36px;
+      margin-bottom: 16px;
+    }
+    .project-name {
+      font-family: 'wf-heading', sans-serif;
+      font-size: 42px;
+      font-weight: 400;  /* ← was 700, live = 400 */
+      color: var(--dark);
+      line-height: 1.2;
+      margin-bottom: 40px;
+      max-width: 604px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--dark);
+      color: var(--white);
+      font-family: 'wf-medium', sans-serif;
+      font-size: 16px;
+      font-weight: 400;
+      height: 50px;        /* ← was ~46px, live = 50px */
+      padding: 0 36px;
+      border-radius: 500px; /* ← live site uses 500px radius */
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      letter-spacing: 0.02em;
+      min-width: 142px;    /* live button width = 142px */
+    }
+    .btn:hover { opacity: 0.85; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--white);
+      padding: 80px 80px 48px;
+      text-align: center;
+      position: relative;
+    }
+    .footer-title {
+      font-family: 'wf-medium', sans-serif;
+      font-size: 40px;
+      font-weight: 400;
+      color: var(--dark);
+      margin-bottom: 20px;
+    }
+    .footer-sub {
+      font-family: 'wf-body', sans-serif;
+      font-size: 18px;
+      color: var(--mid);
+      margin-bottom: 44px;
+      max-width: 680px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.6;
+    }
+    /* Contacts: stacked vertically, centered */
+    .footer-contacts {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+    .footer-contact-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .footer-contact-icon {
+      width: 22px;
+      height: 22px;
+      fill: none;
+      stroke: var(--mid); /* ← icon color matches text = gray */
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex-shrink: 0;
+    }
+    .footer-contact-item a {
+      font-family: 'wf-body', sans-serif;
+      font-size: 18px;
+      color: var(--mid);  /* ← was dark navy, live = gray #5d6a79 */
+      text-decoration: none;
+      font-weight: 400;
+    }
+    .footer-contact-item a:hover { text-decoration: underline; }
+    .footer-explore {
+      font-family: 'wf-body', sans-serif;
+      font-size: 18px;
+      color: var(--blue);
+      text-decoration: underline;
+      display: block;
+      margin-bottom: 40px;
+      cursor: pointer;
+    }
+    .footer-divider {
+      border: none;
+      border-top: 1px solid #e0e3ea;
+      margin-bottom: 20px;
+    }
+    .footer-copy {
+      font-family: 'wf-body', sans-serif;
+      font-size: 14px;
+      color: var(--light);
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a class="logo-link" href="index.html">
+      <svg class="logo-svg" viewBox="0 0 1200 1200" xmlns="http://www.w3.org/2000/svg">
+        <path d="M600 0C268.63 0 0 268.63 0 600s268.63 600 600 600 600-268.63 600-600S931.37 0 600 0zM346.48 432.36c.92-62.32 54.46-111.78 122.85-113.89v495.62c-62.6 7.28-121.5-44.77-122.68-110.64-1.63-90.34-1.51-180.74-.17-271.09zm-.02 508.22c.52-39.25 22.32-59.72 60.98-60.19 40.88-.5 59.79 23.35 64 62.04-4.62 38.54-24.92 63.44-64.34 62.75-39.17-.69-61.17-24.39-60.64-64.6zm312.35.3c-.38 74.76-55.1 126.21-130.4 126.84-28.18.23-56.36.04-98.49.04 86.28-33.16 104.23-90.71 102.76-164.44-3.04-152.42-1.11-304.95-.44-457.43.28-64.2 40.93-116.05 99.03-124.93 3.69-.56 25.69-1.96 25.69-1.96s1.05 18.77 1.08 22.79c1.47 199.68 1.8 399.39.77 599.09zm195.51-182.54c-.15 71.04-57.81 127.69-125.33 121.84V691.65c0-145.97-.25-291.94.12-437.91.17-69.33 54.96-123.8 123.48-121.5.61 8.3 1.79 16.88 1.8 25.45.09 200.22.35 400.43-.07 600.65z"/>
+      </svg>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">Projects</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="https://dribbble.com/ynilvy" target="_blank">More Works</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-text">
+      <span class="hero-label">SHALOM. I'M YONI LEVY,</span>
+      <h1 class="hero-title">Hands-On Product Designer Focused on Real-World Impact</h1>
+    </div>
+    <div class="hero-photo">
+      <img src="https://static.wixstatic.com/media/6679be_71e0173382a2409784ef0697b6f682ca~mv2.png" alt="Yoni Levy">
+    </div>
+    <div class="scroll-hint">
+      Scroll down to see my work
+      <svg width="16" height="10" viewBox="0 0 16 10" fill="none">
+        <path d="M1 1L8 8L15 1" stroke="#5d6a79" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- PROJECT 1: image LEFT -->
+  <section class="project-section">
+    <div class="project-img-wrap">
+      <img src="https://static.wixstatic.com/media/207209_f94449d174314128a5fc7bab18e97d5f~mv2.png" alt="Supersmart Shopper App">
+    </div>
+    <div class="project-info">
+      <p class="project-tag">B2B2C</p>
+      <h2 class="project-name">Supersmart Shopper App</h2>
+      <a href="supermart-shopper.html" class="btn">Read More</a>
+    </div>
+  </section>
+
+  <!-- PROJECT 2: image RIGHT -->
+  <section class="project-section reverse">
+    <div class="project-img-wrap">
+      <img src="https://static.wixstatic.com/media/207209_a7bbac8147a24ab3aeaf2e60d9d6190e~mv2.png" alt="Supersmart Dashboard Analytics">
+    </div>
+    <div class="project-info">
+      <p class="project-tag">B2B</p>
+      <h2 class="project-name">Supersmart Dashboard Analytics</h2>
+      <a href="supermart-web-dashboard.html" class="btn">Read More</a>
+    </div>
+  </section>
+
+  <!-- PROJECT 3: image LEFT -->
+  <section class="project-section">
+    <div class="project-img-wrap">
+      <img src="https://static.wixstatic.com/media/207209_892189d69b4e4e9691fa4d9235dd0580~mv2.png" alt="Broadsay App">
+    </div>
+    <div class="project-info">
+      <p class="project-tag">B2B</p>
+      <h2 class="project-name">Broadsay App</h2>
+      <a href="broadsay-app.html" class="btn">Read More</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer id="contact">
+    <h2 class="footer-title">Let's connect!</h2>
+    <p class="footer-sub">Thank you for taking the time to review my work. If you're interested in further discussion or have any inquiries, please feel free to get in touch.</p>
+    <div class="footer-contacts">
+      <div class="footer-contact-item">
+        <svg class="footer-contact-icon" viewBox="0 0 24 24">
+          <rect x="2" y="4" width="20" height="16" rx="2"/>
+          <path d="M2 7l10 7 10-7"/>
+        </svg>
+        <a href="mailto:woodgate@gmail.com">woodgate@gmail.com</a>
+      </div>
+      <div class="footer-contact-item">
+        <svg class="footer-contact-icon" viewBox="0 0 24 24">
+          <path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 011 1V20a1 1 0 01-1 1C10.61 21 3 13.39 3 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.45.57 3.58a1 1 0 01-.25 1.01l-2.2 2.2z"/>
+        </svg>
+        <a href="tel:+972506381607">+972-50-6381607</a>
+      </div>
+    </div>
+    <a class="footer-explore" href="#">Explore more of my work</a>
+    <hr class="footer-divider">
+    <p class="footer-copy">© 2024 Yoni Levy</p>
+  </footer>
+
+</body>
+</html>

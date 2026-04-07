@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Supermart Shopper | Yoni Levy</title>
+  <style>
+    @font-face {
+      font-family: 'wf-heading';
+      src: url('https://static.wixstatic.com/ufonts/c79f9d_b7c1b5ecc22540718679c93c5a404a7d/woff2/file.woff2') format('woff2');
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'wf-medium';
+      src: url('https://static.wixstatic.com/ufonts/c79f9d_03cbc78483fc4a3cb21c18905add3f2d/woff2/file.woff2') format('woff2');
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'wf-body';
+      src: url('https://static.wixstatic.com/ufonts/c79f9d_c147c9b52b264e0a9010651af4711b8c/woff2/file.woff2') format('woff2');
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'wf-nav';
+      src: url('https://static.wixstatic.com/ufonts/c79f9d_37334f6f60bf42efb8660e6f67646722/woff2/file.woff2') format('woff2');
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'wf-hint';
+      src: url('https://static.wixstatic.com/ufonts/c79f9d_7d55195f6322484db7c4466f864bc1e3/woff2/file.woff2') format('woff2');
+      font-display: swap;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #f7f8fd;
+      --dark: #22303e;
+      --mid: #5d6a79;
+      --light: #949494;
+      --blue: #127cf7;
+      --white: #fff;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--dark);
+      overflow-x: hidden;
+    }
+
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      background: var(--bg);
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+    }
+    .logo-link { display: flex; align-items: center; text-decoration: none; }
+    .logo-svg { width: 42px; height: 42px; fill: var(--dark); }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--mid);
+      font-family: 'wf-nav', sans-serif;
+      font-size: 18px;
+      font-weight: 400;
+    }
+    .nav-links a:hover { color: var(--dark); font-weight: 600; }
+
+    .page-wrap { padding-top: 70px; }
+
+    /* CASE HERO */
+    .case-hero { padding: 80px 123px 60px; }
+    .case-tag {
+      display: block;
+      font-family: 'wf-medium', sans-serif;
+      font-size: 18px;
+      font-weight: 400;
+      letter-spacing: 0.36px;
+      color: var(--blue);
+      margin-bottom: 24px;
+    }
+    .case-title {
+      font-family: 'wf-heading', sans-serif;
+      font-size: 55px;
+      font-weight: 400;
+      color: var(--dark);
+      line-height: 1.1;
+      margin-bottom: 16px;
+      letter-spacing: -0.02em;
+    }
+    .case-desc {
+      font-family: 'wf-body', sans-serif;
+      font-size: 18px;
+      color: var(--mid);
+      line-height: 1.7;
+      max-width: 900px;
+    }
+
+    /* ABOUT THE PROJECT: 3-COLUMN */
+    .about-project {
+      padding: 60px 123px 60px;
+    }
+    .section-heading-lg {
+      font-family: 'wf-heading', sans-serif;
+      font-size: 42px;
+      font-weight: 400;
+      color: var(--dark);
+      margin-bottom: 48px;
+      line-height: 1.1;
+    }
+    .three-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 40px;
+    }
+    .col-label {
+      font-family: 'wf-heading', sans-serif;
+      font-size: 28px;
+      font-weight: 400;
+      color: var(--dark);
+      margin-bottom: 16px;
+    }
+    .col-icon { font-size: 28px; margin-bottom: 12px; }
+    .col-body {
+      font-family: 'wf-body', sans-serif;
+      font-size: 18px;
+      color: var(--mid);
+      line-height: 1.7;
+    }
+
+    /* DESCRIPTION BELOW 3-COL */
+    .section-block { padding: 60px 123px 0; }
+    .section-heading {
+      font-family: 'wf-heading', sans-serif;
+      font-size: 42px;
+      font-weight: 400;
+      color: var(--dark);
+      margin-bottom: 36px;
+      line-height: 1.1;
+    }
+    .section-body {
+      font-family: 'wf-body', sans-serif;
+      font-size: 18px;
+      color: var(--mid);
+      line-height: 1.7;
+      margin-bottom: 20px;
+      max-width: 900px;
+    }
+
+    /* FULL-WIDTH IMAGE */
+    .img-wrap { padding: 0 123px 60px; }
+    .img-wrap img { width: 100%; border-radius: 12px; display: block; }
+
+    /* PHOTO ROW */
+    .photo-row { padding: 0 123px 60px; }
+    .photo-row img { width: 100%; border-radius: 16px; display: block; }
+
+    /* IMAGE ROW */
+    .img-row { display: flex; gap: 16px; padding: 0 123px 60px; }
+    .img-row img { flex: 1; min-width: 0; border-radius: 12px; object-fit: contain; }
+
+    /* WIREFRAMES */
+    .wireframes-group { padding: 0 123px 48px; }
+    .wireframes-label {
+      font-family: 'wf-body', sans-serif;
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 16px;
+    }
+    .wireframes-row { display: flex; gap: 12px; margin-bottom: 32px; }
+    .wireframes-row img { flex: 1; min-width: 0; border-radius: 10px; object-fit: contain; max-height: 400px; }
+
+    /* PHONES ROW */
+    .phones-row { display: flex; gap: 20px; padding: 0 123px 32px; justify-content: center; }
+    .phones-row img { flex: 1; min-width: 0; max-width: 200px; border-radius: 16px; object-fit: contain; }
+
+    /* ITEM LIST */
+    .item-list { list-style: none; padding: 0; max-width: 900px; }
+    .item-list li { padding: 20px 0; border-bottom: 1px solid rgba(93,106,121,0.15); }
+    .item-list li:first-child { border-top: 1px solid rgba(93,106,121,0.15); }
+    .item-label {
+      font-family: 'wf-body', sans-serif;
+      font-size: 22px;
+      font-weight: 400;
+      color: var(--dark);
+      margin-bottom: 8px;
+    }
+    .item-desc {
+      font-family: 'wf-body', sans-serif;
+      font-size: 18px;
+      color: var(--mid);
+      line-height: 1.6;
+    }
+
+    /* STATS ROW */
+    .stats-row {
+      display: flex;
+      gap: 0;
+      padding: 40px 123px;
+      background: var(--dark);
+      margin: 60px 0;
+    }
+    .stat-item {
+      flex: 1;
+      text-align: center;
+      padding: 24px;
+      border-right: 1px solid rgba(255,255,255,0.15);
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-num {
+      font-family: 'wf-heading', sans-serif;
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 8px;
+    }
+    .stat-label {
+      font-family: 'wf-body', sans-serif;
+      font-size: 14px;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.4;
+    }
+
+    /* IMPROVEMENT LIST */
+    .improvement-list { list-style: none; padding: 0; max-width: 900px; }
+    .improvement-list li { padding: 18px 0; border-bottom: 1px solid rgba(93,106,121,0.15); }
+    .improvement-list li:first-child { border-top: 1px solid rgba(93,106,121,0.15); }
+    .improvement-title {
+      font-family: 'wf-body', sans-serif;
+      font-size: 22px;
+      font-weight: 400;
+      color: var(--dark);
+      margin-bottom: 6px;
+    }
+    .improvement-desc {
+      font-family: 'wf-body', sans-serif;
+      font-size: 18px;
+      color: var(--mid);
+      line-height: 1.6;
+    }
+
+    .divider { height: 1px; background: rgba(93,106,121,0.12); margin: 60px 123px 0; }
+    .spacer { height: 60px; }
+
+    /* FOOTER */
+    footer { background: var(--white); padding: 80px 80px 48px; text-align: center; margin-top: 80px; position: relative; }
+    .footer-title {
+      font-family: 'wf-medium', sans-serif;
+      font-size: 40px;
+      font-weight: 400;
+      color: var(--dark);
+      margin-bottom: 16px;
+    }
+    .footer-sub {
+      font-family: 'wf-body', sans-serif;
+      font-size: 18px;
+      color: var(--mid);
+      margin-bottom: 40px;
+      max-width: 680px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.6;
+    }
+    .footer-contacts { display: flex; flex-direction: column; align-items: center; gap: 12px; margin-bottom: 32px; }
+    .footer-contact-item { display: flex; align-items: center; gap: 10px; }
+    .footer-contact-icon {
+      width: 22px; height: 22px; flex-shrink: 0;
+      fill: none; stroke: var(--mid);
+      stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
+    }
+    .footer-contact-item a {
+      font-family: 'wf-body', sans-serif;
+      font-size: 18px; color: var(--mid); text-decoration: none; font-weight: 400;
+    }
+    .footer-contact-item a:hover { text-decoration: underline; }
+    .footer-explore {
+      font-family: 'wf-body', sans-serif;
+      font-size: 18px; color: var(--blue); text-decoration: underline;
+      display: block; margin-bottom: 40px; cursor: pointer;
+    }
+    .footer-divider { border: none; border-top: 1px solid #e0e3ea; margin-bottom: 20px; }
+    .footer-copy {
+      font-family: 'wf-body', sans-serif;
+      font-size: 14px; color: var(--light); text-align: left;
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a class="logo-link" href="index.html">
+      <svg class="logo-svg" viewBox="0 0 1200 1200" xmlns="http://www.w3.org/2000/svg">
+        <path d="M600 0C268.63 0 0 268.63 0 600s268.63 600 600 600 600-268.63 600-600S931.37 0 600 0zM346.48 432.36c.92-62.32 54.46-111.78 122.85-113.89v495.62c-62.6 7.28-121.5-44.77-122.68-110.64-1.63-90.34-1.51-180.74-.17-271.09zm-.02 508.22c.52-39.25 22.32-59.72 60.98-60.19 40.88-.5 59.79 23.35 64 62.04-4.62 38.54-24.92 63.44-64.34 62.75-39.17-.69-61.17-24.39-60.64-64.6zm312.35.3c-.38 74.76-55.1 126.21-130.4 126.84-28.18.23-56.36.04-98.49.04 86.28-33.16 104.23-90.71 102.76-164.44-3.04-152.42-1.11-304.95-.44-457.43.28-64.2 40.93-116.05 99.03-124.93 3.69-.56 25.69-1.96 25.69-1.96s1.05 18.77 1.08 22.79c1.47 199.68 1.8 399.39.77 599.09zm195.51-182.54c-.15 71.04-57.81 127.69-125.33 121.84V691.65c0-145.97-.25-291.94.12-437.91.17-69.33 54.96-123.8 123.48-121.5.61 8.3 1.79 16.88 1.8 25.45.09 200.22.35 400.43-.07 600.65z"/>
+      </svg>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Projects</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+      <li><a href="https://dribbble.com/ynilvy" target="_blank">More Works</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-wrap">
+
+    <!-- CASE STUDY HERO -->
+    <div class="case-hero">
+      <span class="case-tag">CASE STUDY</span>
+      <h1 class="case-title">Supersmart Shopper App</h1>
+      <p class="case-desc">Supersmart is a B2B/B2B2C company that develops solutions for smart shopping in retail stores, primarily in supermarkets and convenience stores. Among its products is a 'Scan and Go' application that enables a cashierless shopping experience. You scan the products, pass through a terminal that cross-references the cart/basket weight with an image recognition system, pay, and exit. The application is beneficial for clients who cannot develop a native app or for those with an app lacking the capabilities of the Supersmart application.</p>
+    </div>
+
+    <!-- ABOUT THE PROJECT: 3 COLUMNS -->
+    <div class="about-project">
+      <h2 class="section-heading-lg">About the Project</h2>
+      <div class="three-col">
+        <div>
+          <div class="col-icon">✍🏼</div>
+          <div class="col-label">My Role</div>
+          <div class="col-body">UX Design Lead (Hands-on): Concept, sketching, visual design, wireframing, icons, design system, prototyping, dev handoff, design reviews, and support through development.</div>
+        </div>
+        <div>
+          <div class="col-icon">👫</div>
+          <div class="col-label">Team</div>
+          <div class="col-body">
+            1 UX Design Lead<br>
+            1 UX/UI Designer<br>
+            2 Product Managers<br>
+            1 Technical UX Writer<br>
+            2 Full-stack Developers
+          </div>
+        </div>
+        <div>
+          <div class="col-icon">🧰</div>
+          <div class="col-label">Tools</div>
+          <div class="col-body">Figma &nbsp;·&nbsp; Adobe Illustrator &nbsp;·&nbsp; Miro &nbsp;·&nbsp; Slack &nbsp;·&nbsp; Jira &nbsp;·&nbsp; Whiteboard &nbsp;·&nbsp; Pen &amp; Paper</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DESCRIPTION -->
+    <div class="section-block">
+      <p class="section-body">The old app, developed by a freelancer in late 2015, lacked ongoing updates and design oversight. With the VP of Product, we decided to rebuild from scratch, aiming for a faster, user-friendly experience aligned with our new branding. Our main goals were to reduce wait times, boost sales with tailored discounts, support multiple languages, offer various features, and notably deter product theft, streamlining operations away from traditional cash registers. I was involved from concept to the finished product.</p>
+    </div>
+
+    <div class="divider"></div>
+    <div class="spacer"></div>
+
+    <!-- OLD DESIGN -->
+    <div class="section-block">
+      <h2 class="section-heading">Old Design</h2>
+    </div>
+    <div class="img-wrap">
+      <img src="https://static.wixstatic.com/media/207209_4000ceb7ac9d40429c56b0378f885247~mv2.png" alt="Old Design">
+    </div>
+
+    <div class="divider"></div>
+    <div class="spacer"></div>
+
+    <!-- RESEARCH APPROACH -->
+    <div class="section-block">
+      <h2 class="section-heading">Research Approach</h2>
+      <p class="section-body">To understand how users interact with the Scan &amp; Go app in real-world conditions, we used a combination of on-site observations, user interviews, and close collaboration with the product team. This allowed us to uncover usability issues, feature gaps, and platform inconsistencies — both from the perspective of end users and the business.</p>
+    </div>
+    <div class="spacer"></div>
+    <div class="photo-row">
+      <img src="https://static.wixstatic.com/media/6679be_fd15a44e434c415ea760f22facc09616~mv2.png" alt="Research Approach">
+    </div>
+
+    <div class="section-block">
+      <h2 class="section-heading">User Pain Points</h2>
+      <ul class="item-list">
+        <li><div class="item-desc">Difficulty scanning items quickly and accurately</div></li>
+        <li><div class="item-desc">No support for managing multiple carts/baskets per session (a common user and business request)</div></li>
+        <li><div class="item-desc">Long wait times for staff assistance during errors</div></li>
+        <li><div class="item-desc">Desire for alternative product suggestions (cheaper/similar)</div></li>
+        <li><div class="item-desc">Need for in-store navigation assistance</div></li>
+        <li><div class="item-desc">Strong motivation to minimize time spent in-store</div></li>
+      </ul>
+    </div>
+
+    <div class="spacer"></div>
+
+    <div class="section-block">
+      <h2 class="section-heading">Product Team Pain Points</h2>
+      <ul class="item-list">
+        <li><div class="item-desc">Limited scanner screen area reduced confidence &amp; focus</div></li>
+        <li><div class="item-desc">Outdated visuals and iconography misaligned with brand refresh</div></li>
+        <li><div class="item-desc">Inconsistent UX across Android and iOS platforms</div></li>
+        <li><div class="item-desc">Poor color hierarchy lowered button visibility</div></li>
+        <li><div class="item-desc">Non-modular design blocked scalable feature expansion</div></li>
+        <li><div class="item-desc">Weak branding presence in-app</div></li>
+      </ul>
+    </div>
+
+    <div class="divider"></div>
+    <div class="spacer"></div>
+
+    <!-- USER TASK FLOW -->
+    <div class="section-block">
+      <h2 class="section-heading">User task flow</h2>
+      <p class="section-body">Before diving into wireframes, we focused on building a clear and complete user flow. This helped align the entire team around each step of the shopping journey from scanning to checkout, while making sure we didn't miss any edge cases or critical interactions. By mapping the flow early, we were able to anticipate where users might get stuck, simplify repetitive actions to ease cognitive load, and design an experience that's fast, clear, and efficient.</p>
+    </div>
+    <div class="spacer"></div>
+    <div class="img-wrap">
+      <img src="https://static.wixstatic.com/media/6679be_34816b355a43430ca7442af8c6be37f3~mv2.png" alt="User Task Flow">
+    </div>
+
+    <div class="divider"></div>
+    <div class="spacer"></div>
+
+    <!-- WIREFRAMING CONCEPTS -->
+    <div class="section-block">
+      <h2 class="section-heading">Wireframing Concepts</h2>
+      <p class="section-body">Based on the research and task flow analysis, we developed three wireframe concepts representing different UX approaches. We created interactive prototypes and shared them with key internal stakeholders and product champions for hands-on feedback. Insights from these sessions led us to a refined fourth concept that combined the strongest elements of all three into a cohesive direction.</p>
+    </div>
+    <div class="spacer"></div>
+    <div class="wireframes-group">
+      <div class="wireframes-label">Concept 1</div>
+      <div class="wireframes-row">
+        <img src="https://static.wixstatic.com/media/207209_7945ae3c194f4ea2bf03b44fed27fa3a~mv2.png" alt="Concept 1a">
+        <img src="https://static.wixstatic.com/media/207209_012414c378614363a406b87e73112df7~mv2.png" alt="Concept 1b">
+        <img src="https://static.wixstatic.com/media/207209_590e6569fc984ae388029b183e12a569~mv2.png" alt="Concept 1c">
+        <img src="https://static.wixstatic.com/media/207209_aee1c340de7b4a79b537b80867572e3b~mv2.png" alt="Concept 1d">
+      </div>
+      <div class="wireframes-label">Concept 2</div>
+      <div class="wireframes-row">
+        <img src="https://static.wixstatic.com/media/207209_d5b216ff0aa34b42bd688323fd0eb744~mv2.png" alt="Concept 2a">
+        <img src="https://static.wixstatic.com/media/207209_19faf1e67733429198703c9315e328cd~mv2.png" alt="Concept 2b">
+        <img src="https://static.wixstatic.com/media/207209_b082bf50fb1344a6a4a3cb56b9fd530c~mv2.png" alt="Concept 2c">
+        <img src="https://static.wixstatic.com/media/207209_2df0d311984647d09bcb1849b26c41df~mv2.png" alt="Concept 2d">
+      </div>
+      <div class="wireframes-label">Concept 3</div>
+      <div class="wireframes-row">
+        <img src="https://static.wixstatic.com/media/207209_22f84ea632ce4bc9b5a663550581983d~mv2.png" alt="Concept 3a">
+        <img src="https://static.wixstatic.com/media/207209_2cb8bc5edf3a4a6492c7ab7f57513934~mv2.png" alt="Concept 3b">
+        <img src="https://static.wixstatic.com/media/207209_40e6b5b8f887435fadcce94a70722d90~mv2.png" alt="Concept 3c">
+        <img src="https://static.wixstatic.com/media/207209_e686ed863e18405985202fb88b8fac6d~mv2.png" alt="Concept 3d">
+      </div>
+    </div>
+
+    <div class="divider"></div>
+    <div class="spacer"></div>
+
+    <!-- DECISIONS -->
+    <div class="section-block">
+      <h2 class="section-heading">Decisions Based on Research</h2>
+      <ul class="item-list">
+        <li>
+          <div class="item-label">Optimizing User Journey</div>
+          <div class="item-desc">Streamlining the user journey for a quick and efficient checkout and validation process.</div>
+        </li>
+        <li>
+          <div class="item-label">Error Resolution Empowerment</div>
+          <div class="item-desc">Empowering users to independently troubleshoot errors without assistance.</div>
+        </li>
+        <li>
+          <div class="item-label">Complete UI Overhaul</div>
+          <div class="item-desc">Undertaking a comprehensive redesign of the entire User Interface for improved usability.</div>
+        </li>
+        <li>
+          <div class="item-label">Multilingual Cross-Platform Support</div>
+          <div class="item-desc">Supporting over 15 languages seamlessly in a cross-platform environment.</div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="divider"></div>
+    <div class="spacer"></div>
+
+    <!-- DESIGN SYSTEM -->
+    <div class="section-block">
+      <h2 class="section-heading">Design System</h2>
+      <p class="section-body">Since we were rebuilding the app from scratch, and no design system existed in the company, we used this opportunity to kickstart one. We began by creating components specifically for the Scan &amp; Go app and gradually expanded the system to support our entire product suite (including the web dashboard, the touchscreen checkout, and other internal tools). New components were added and refined sprint by sprint, in parallel with live development.</p>
+    </div>
+    <div class="spacer"></div>
+    <div class="img-wrap">
+      <img src="https://static.wixstatic.com/media/207209_4e5dd56c10b14793bb1506ef5b8f114e~mv2.png" alt="Design System">
+    </div>
+
+    <div class="divider"></div>
+    <div class="spacer"></div>
+
+    <!-- NEW DESIGN -->
+    <div class="section-block">
+      <h2 class="section-heading">New Design</h2>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-item">
+        <div class="stat-num">+20%</div>
+        <div class="stat-label">Increase revenue</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">-42%</div>
+        <div class="stat-label">Reduced shopper waiting time</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">+17%</div>
+        <div class="stat-label">More Returning Users</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">64→100</div>
+        <div class="stat-label">Transactions per hour</div>
+      </div>
+    </div>
+
+    <div class="phones-row">
+      <img src="https://static.wixstatic.com/media/207209_99ba902d31174d80be683adf54afbb80~mv2.png" alt="New Design Screen 1">
+      <img src="https://static.wixstatic.com/media/207209_d07ae25329b34ac8bfcf52d3721cfc70~mv2.png" alt="New Design Screen 2">
+      <img src="https://static.wixstatic.com/media/207209_ae8819769717490c85e41e3481116402~mv2.png" alt="New Design Screen 3">
+      <img src="https://static.wixstatic.com/media/207209_82305458010f456186b896baaf6c1837~mv2.png" alt="New Design Screen 4">
+    </div>
+    <div class="phones-row">
+      <img src="https://static.wixstatic.com/media/207209_25aeb9e73e5f4e54aef10c48f458c547~mv2.png" alt="New Design Screen 5">
+      <img src="https://static.wixstatic.com/media/207209_5271f01c12a64faea889d65deeb7d093~mv2.png" alt="New Design Screen 6">
+      <img src="https://static.wixstatic.com/media/207209_2e26364246074a9ebfb1a6937c075622~mv2.png" alt="New Design Screen 7">
+      <img src="https://static.wixstatic.com/media/207209_654914a596ac434389e2e9e12eb04964~mv2.png" alt="New Design Screen 8">
+    </div>
+    <div class="phones-row" style="padding-bottom:60px">
+      <img src="https://static.wixstatic.com/media/207209_4a32df55b2ea4266bebf6634e63982e7~mv2.png" alt="New Design Screen 9">
+      <img src="https://static.wixstatic.com/media/207209_af33cfd2f732474da2a8f1c897276b48~mv2.png" alt="New Design Screen 10">
+    </div>
+
+    <div class="divider"></div>
+    <div class="spacer"></div>
+
+    <!-- KEY IMPROVEMENTS -->
+    <div class="section-block">
+      <h2 class="section-heading">Key Improvements</h2>
+      <ul class="improvement-list">
+        <li>
+          <div class="improvement-title">Full-Size Scanner Screen</div>
+          <div class="improvement-desc">Enhances scanning experience with a full-size screen for increased visibility.</div>
+        </li>
+        <li>
+          <div class="improvement-title">Troubleshooting Assistance</div>
+          <div class="improvement-desc">Users can now resolve common issues—like unscanned items, invalid barcodes, item removals, or personal belongings in the cart—directly through the app, without needing assistance from store staff.</div>
+        </li>
+        <li>
+          <div class="improvement-title">User-Friendly UI</div>
+          <div class="improvement-desc">The entire interface was reworked with a focus on simplicity, speed, and accessibility—making it easier to navigate and more pleasant to use.</div>
+        </li>
+        <li>
+          <div class="improvement-title">Platform-Specific Projects</div>
+          <div class="improvement-desc">Separate projects for Android and iOS, ensuring platform alignment.</div>
+        </li>
+        <li>
+          <div class="improvement-title">New Branding Integration</div>
+          <div class="improvement-desc">Established new branding on the website/dashboard for a cohesive visual identity.</div>
+        </li>
+        <li>
+          <div class="improvement-title">Flexible Multilingual Support</div>
+          <div class="improvement-desc">Support for 15+ languages, with a responsive design that adapts across different scripts and layouts. Fully localized and consistent across the product suite.</div>
+        </li>
+        <li>
+          <div class="improvement-title">Enhanced Flexibility for Features</div>
+          <div class="improvement-desc">Increased flexibility to seamlessly integrate new features.</div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="spacer"></div>
+
+  </div><!-- /page-wrap -->
+
+  <!-- FOOTER -->
+  <footer id="contact">
+    <h2 class="footer-title">Let's connect!</h2>
+    <p class="footer-sub">Thank you for taking the time to review my work. If you're interested in further discussion or have any inquiries, please feel free to get in touch.</p>
+    <div class="footer-contacts">
+      <div class="footer-contact-item">
+        <svg class="footer-contact-icon" viewBox="0 0 24 24">
+          <rect x="2" y="4" width="20" height="16" rx="2"/>
+          <path d="M2 7l10 7 10-7"/>
+        </svg>
+        <a href="mailto:woodgate@gmail.com">woodgate@gmail.com</a>
+      </div>
+      <div class="footer-contact-item">
+        <svg class="footer-contact-icon" viewBox="0 0 24 24">
+          <path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 011 1V20a1 1 0 01-1 1C10.61 21 3 13.39 3 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.45.57 3.58a1 1 0 01-.25 1.01l-2.2 2.2z"/>
+        </svg>
+        <a href="tel:+972506381607">+972-50-6381607</a>
+      </div>
+    </div>
+    <a class="footer-explore" href="#">Explore more of my work</a>
+    <hr class="footer-divider">
+    <p class="footer-copy">© 2024 Yoni Levy</p>
+  </footer>
+
+</body>
+</html>

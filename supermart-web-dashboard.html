@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Supersmart Web Dashboard | Yoni Levy</title>
+  <style>
+    @font-face {
+      font-family: 'wf-heading';
+      src: url('https://static.wixstatic.com/ufonts/c79f9d_b7c1b5ecc22540718679c93c5a404a7d/woff2/file.woff2') format('woff2');
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'wf-medium';
+      src: url('https://static.wixstatic.com/ufonts/c79f9d_03cbc78483fc4a3cb21c18905add3f2d/woff2/file.woff2') format('woff2');
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'wf-body';
+      src: url('https://static.wixstatic.com/ufonts/c79f9d_c147c9b52b264e0a9010651af4711b8c/woff2/file.woff2') format('woff2');
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'wf-nav';
+      src: url('https://static.wixstatic.com/ufonts/c79f9d_37334f6f60bf42efb8660e6f67646722/woff2/file.woff2') format('woff2');
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'wf-hint';
+      src: url('https://static.wixstatic.com/ufonts/c79f9d_7d55195f6322484db7c4466f864bc1e3/woff2/file.woff2') format('woff2');
+      font-display: swap;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #f7f8fd;
+      --dark: #22303e;
+      --mid: #5d6a79;
+      --light: #949494;
+      --blue: #127cf7;
+      --white: #fff;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--dark);
+      overflow-x: hidden;
+    }
+
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      background: var(--bg);
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+    }
+    .logo-link { display: flex; align-items: center; text-decoration: none; }
+    .logo-svg { width: 42px; height: 42px; fill: var(--dark); }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--mid);
+      font-family: 'wf-nav', sans-serif;
+      font-size: 18px;
+      font-weight: 400;
+    }
+    .nav-links a:hover { color: var(--dark); font-weight: 600; }
+
+    .page-wrap { padding-top: 70px; }
+
+    /* CASE HERO */
+    .case-hero { padding: 80px 123px 60px; }
+    .case-tag {
+      display: block;
+      font-family: 'wf-medium', sans-serif;
+      font-size: 18px;
+      font-weight: 400;
+      letter-spacing: 0.36px;
+      color: var(--blue);
+      margin-bottom: 24px;
+    }
+    .case-title {
+      font-family: 'wf-heading', sans-serif;
+      font-size: 55px;
+      font-weight: 400;
+      color: var(--dark);
+      line-height: 1.1;
+      margin-bottom: 16px;
+      letter-spacing: -0.02em;
+    }
+    .case-who {
+      font-family: 'wf-heading', sans-serif;
+      font-size: 22px;
+      font-weight: 400;
+      color: var(--dark);
+      margin-bottom: 16px;
+    }
+    .case-desc {
+      font-family: 'wf-body', sans-serif;
+      font-size: 18px;
+      color: var(--mid);
+      line-height: 1.7;
+      max-width: 900px;
+      margin-bottom: 16px;
+    }
+
+    /* ABOUT THE PROJECT: 3-COLUMN */
+    .about-project { padding: 60px 123px 60px; }
+    .section-heading-lg {
+      font-family: 'wf-heading', sans-serif;
+      font-size: 42px;
+      font-weight: 400;
+      color: var(--dark);
+      margin-bottom: 48px;
+      line-height: 1.1;
+    }
+    .three-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 40px;
+    }
+    .col-label {
+      font-family: 'wf-heading', sans-serif;
+      font-size: 28px;
+      font-weight: 400;
+      color: var(--dark);
+      margin-bottom: 16px;
+    }
+    .col-icon { font-size: 28px; margin-bottom: 12px; }
+    .col-body {
+      font-family: 'wf-body', sans-serif;
+      font-size: 18px;
+      color: var(--mid);
+      line-height: 1.7;
+    }
+
+    .section-block { padding: 60px 123px 0; }
+    .section-heading {
+      font-family: 'wf-heading', sans-serif;
+      font-size: 42px;
+      font-weight: 400;
+      color: var(--dark);
+      margin-bottom: 36px;
+      line-height: 1.1;
+    }
+    .section-body {
+      font-family: 'wf-body', sans-serif;
+      font-size: 18px;
+      color: var(--mid);
+      line-height: 1.7;
+      margin-bottom: 20px;
+      max-width: 900px;
+    }
+
+    .img-wrap { padding: 0 123px 60px; }
+    .img-wrap img { width: 100%; border-radius: 12px; display: block; }
+
+    .photo-row { padding: 0 123px 60px; }
+    .photo-row img { width: 100%; border-radius: 16px; display: block; }
+
+    .img-row { display: flex; gap: 16px; padding: 0 123px 60px; }
+    .img-row img { flex: 1; min-width: 0; border-radius: 12px; object-fit: contain; }
+
+    .item-list { list-style: none; padding: 0; max-width: 900px; }
+    .item-list li { padding: 20px 0; border-bottom: 1px solid rgba(93,106,121,0.15); }
+    .item-list li:first-child { border-top: 1px solid rgba(93,106,121,0.15); }
+    .item-label {
+      font-family: 'wf-body', sans-serif;
+      font-size: 22px;
+      font-weight: 400;
+      color: var(--dark);
+      margin-bottom: 8px;
+    }
+    .item-desc {
+      font-family: 'wf-body', sans-serif;
+      font-size: 18px;
+      color: var(--mid);
+      line-height: 1.6;
+    }
+
+    .improvement-list { list-style: none; padding: 0; max-width: 900px; }
+    .improvement-list li { padding: 18px 0; border-bottom: 1px solid rgba(93,106,121,0.15); }
+    .improvement-list li:first-child { border-top: 1px solid rgba(93,106,121,0.15); }
+    .improvement-title {
+      font-family: 'wf-body', sans-serif;
+      font-size: 22px;
+      font-weight: 400;
+      color: var(--dark);
+      margin-bottom: 6px;
+    }
+    .improvement-desc {
+      font-family: 'wf-body', sans-serif;
+      font-size: 18px;
+      color: var(--mid);
+      line-height: 1.6;
+    }
+
+    .divider { height: 1px; background: rgba(93,106,121,0.12); margin: 60px 123px 0; }
+    .spacer { height: 60px; }
+
+    /* FOOTER */
+    footer { background: var(--white); padding: 80px 80px 48px; text-align: center; margin-top: 80px; position: relative; }
+    .footer-title {
+      font-family: 'wf-medium', sans-serif;
+      font-size: 40px; font-weight: 400; color: var(--dark); margin-bottom: 16px;
+    }
+    .footer-sub {
+      font-family: 'wf-body', sans-serif;
+      font-size: 18px; color: var(--mid); margin-bottom: 40px;
+      max-width: 680px; margin-left: auto; margin-right: auto; line-height: 1.6;
+    }
+    .footer-contacts { display: flex; flex-direction: column; align-items: center; gap: 12px; margin-bottom: 32px; }
+    .footer-contact-item { display: flex; align-items: center; gap: 10px; }
+    .footer-contact-icon {
+      width: 22px; height: 22px; flex-shrink: 0; fill: none; stroke: var(--mid);
+      stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
+    }
+    .footer-contact-item a {
+      font-family: 'wf-body', sans-serif;
+      font-size: 18px; color: var(--mid); text-decoration: none; font-weight: 400;
+    }
+    .footer-contact-item a:hover { text-decoration: underline; }
+    .footer-explore {
+      font-family: 'wf-body', sans-serif;
+      font-size: 18px; color: var(--blue); text-decoration: underline;
+      display: block; margin-bottom: 40px; cursor: pointer;
+    }
+    .footer-divider { border: none; border-top: 1px solid #e0e3ea; margin-bottom: 20px; }
+    .footer-copy {
+      font-family: 'wf-body', sans-serif;
+      font-size: 14px; color: var(--light); text-align: left;
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a class="logo-link" href="index.html">
+      <svg class="logo-svg" viewBox="0 0 1200 1200" xmlns="http://www.w3.org/2000/svg">
+        <path d="M600 0C268.63 0 0 268.63 0 600s268.63 600 600 600 600-268.63 600-600S931.37 0 600 0zM346.48 432.36c.92-62.32 54.46-111.78 122.85-113.89v495.62c-62.6 7.28-121.5-44.77-122.68-110.64-1.63-90.34-1.51-180.74-.17-271.09zm-.02 508.22c.52-39.25 22.32-59.72 60.98-60.19 40.88-.5 59.79 23.35 64 62.04-4.62 38.54-24.92 63.44-64.34 62.75-39.17-.69-61.17-24.39-60.64-64.6zm312.35.3c-.38 74.76-55.1 126.21-130.4 126.84-28.18.23-56.36.04-98.49.04 86.28-33.16 104.23-90.71 102.76-164.44-3.04-152.42-1.11-304.95-.44-457.43.28-64.2 40.93-116.05 99.03-124.93 3.69-.56 25.69-1.96 25.69-1.96s1.05 18.77 1.08 22.79c1.47 199.68 1.8 399.39.77 599.09zm195.51-182.54c-.15 71.04-57.81 127.69-125.33 121.84V691.65c0-145.97-.25-291.94.12-437.91.17-69.33 54.96-123.8 123.48-121.5.61 8.3 1.79 16.88 1.8 25.45.09 200.22.35 400.43-.07 600.65z"/>
+      </svg>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Projects</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+      <li><a href="https://dribbble.com/ynilvy" target="_blank">More Works</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-wrap">
+
+    <!-- CASE STUDY HERO -->
+    <div class="case-hero">
+      <span class="case-tag">CASE STUDY</span>
+      <h1 class="case-title">Supersmart Web Dashboard</h1>
+      <h2 class="case-who">Who is Supersmart? Why do they need a dashboard?</h2>
+      <p class="case-desc">Supersmart is a B2B2C company that develops solutions for smart shopping in retail stores, primarily in supermarkets and convenience stores. Among their products are a scanning application, a tablet-based management system for store employees, interfaces for scanning devices, a smart cart application, and more. Control over all these tools is remotely managed through a web-based dashboard accessed by managers and store administrators.</p>
+      <p class="case-desc">In this project, I contributed to designing and planning Supersmart's dashboard system, which included the dashboard interface, new user flows, content strategy, and more. I dedicated time to researching and understanding the overall user experience. My goal for this project was to rethink the user's needs and redesign the overall user experience to empower administrators and users of retail companies, enabling them to create the most functional dashboard system for their work.</p>
+    </div>
+
+    <!-- ABOUT THE PROJECT: 3 COLUMNS -->
+    <div class="about-project">
+      <h2 class="section-heading-lg">About the Project</h2>
+      <div class="three-col">
+        <div>
+          <div class="col-icon">✍🏼</div>
+          <div class="col-label">My Role</div>
+          <div class="col-body">UX Design Lead (Hands-on): Architecture Design, sketching, workflow, UI, prototyping, dev handoff, design reviews, and support through development.</div>
+        </div>
+        <div>
+          <div class="col-icon">👫</div>
+          <div class="col-label">Team</div>
+          <div class="col-body">
+            1 UX Design Lead<br>
+            1 UX/UI Designer<br>
+            1 Product Manager<br>
+            1 Technical UX Writer<br>
+            1 Full-stack Developer<br>
+            1 Front-end Developer
+          </div>
+        </div>
+        <div>
+          <div class="col-icon">🧰</div>
+          <div class="col-label">Tools</div>
+          <div class="col-body">Figma &nbsp;·&nbsp; Moqups &nbsp;·&nbsp; Slack &nbsp;·&nbsp; Jira &nbsp;·&nbsp; Whiteboard &nbsp;·&nbsp; Pen &amp; Paper</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+    <div class="spacer"></div>
+
+    <!-- OLD DESIGN -->
+    <div class="section-block">
+      <h2 class="section-heading">Old Design</h2>
+    </div>
+    <div class="img-wrap">
+      <img src="https://static.wixstatic.com/media/207209_4cd8acb43ee140d4967c3f067498a469~mv2.png" alt="Old Design">
+    </div>
+
+    <div class="divider"></div>
+    <div class="spacer"></div>
+
+    <!-- THE PROBLEMS -->
+    <div class="section-block">
+      <h2 class="section-heading">The Problems</h2>
+      <ul class="item-list">
+        <li>
+          <div class="item-label">Information Hierarchy</div>
+          <div class="item-desc">Need to prioritize crucial information to the top of the page.</div>
+        </li>
+        <li>
+          <div class="item-label">Content Expansion</div>
+          <div class="item-desc">Desire to add more information to the main page.</div>
+        </li>
+        <li>
+          <div class="item-label">Language Flexibility</div>
+          <div class="item-desc">Many pages lack flexibility for text adjustment in different languages.</div>
+        </li>
+        <li>
+          <div class="item-label">Outdated Icons and Graphics</div>
+          <div class="item-desc">Icons and graphics present an outdated and messy appearance.</div>
+        </li>
+        <li>
+          <div class="item-label">Font and Size Alignment</div>
+          <div class="item-desc">Inconsistencies in font styles and sizes.</div>
+        </li>
+        <li>
+          <div class="item-label">Currency Display Challenge</div>
+          <div class="item-desc">Currencies with extensive characters don't fit within info boxes.</div>
+        </li>
+        <li>
+          <div class="item-label">Limited Feature Integration</div>
+          <div class="item-desc">Rigidity in accommodating new features.</div>
+        </li>
+        <li>
+          <div class="item-label">Branding Update</div>
+          <div class="item-desc">The introduction of a new logo and branding requires emphasis.</div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="divider"></div>
+    <div class="spacer"></div>
+
+    <!-- CHALLENGES -->
+    <div class="section-block">
+      <h2 class="section-heading">Challenges</h2>
+      <ul class="item-list">
+        <li>
+          <div class="item-label">Backend Efficiency</div>
+          <div class="item-desc">Minimizing backend workload for developers is a priority.</div>
+        </li>
+        <li>
+          <div class="item-label">Flexible Information Prioritization</div>
+          <div class="item-desc">Prioritizing visual presentation of data and information flexibly to diverse client needs.</div>
+        </li>
+        <li>
+          <div class="item-label">Complete UI Overhaul</div>
+          <div class="item-desc">Undertaking a comprehensive redesign of the entire User Interface.</div>
+        </li>
+        <li>
+          <div class="item-label">Multilingual Support</div>
+          <div class="item-desc">Providing seamless support for over 15 different languages.</div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="divider"></div>
+    <div class="spacer"></div>
+
+    <!-- RESEARCH -->
+    <div class="section-block">
+      <h2 class="section-heading">Research and user needs</h2>
+      <p class="section-body">The Product team conducted interviews with about 15 company clients, primarily administrators or dashboard operators. They were asked 12 key questions regarding the usability and experience of our beta version dashboard to sharpen their needs.</p>
+      <p class="section-body">Each interview was summarized into customer profile cards, segregating negative and positive feedback for specific adjustments. The data gathered played a significant role in the redesign planning of the dashboard, allowing for a more refined understanding of customer needs and experiences.</p>
+    </div>
+    <div class="spacer"></div>
+    <div class="img-wrap">
+      <img src="https://static.wixstatic.com/media/207209_a0e5f3646fa245f98513d414ac15cc3c~mv2.png" alt="Research">
+    </div>
+
+    <div class="divider"></div>
+    <div class="spacer"></div>
+
+    <!-- USER TASK FLOW -->
+    <div class="section-block">
+      <h2 class="section-heading">User task flow</h2>
+      <p class="section-body">As I identified specific user needs, the essential features became more clear. With limited time, I strategically prioritized the core user requirements, ensuring the dashboard offered crucial information, insights, and metrics without overwhelming complexity.</p>
+      <p class="section-body">What are the fundamental components of the New Supersmart Dashboard?</p>
+    </div>
+    <div class="spacer"></div>
+    <div class="img-wrap">
+      <img src="https://static.wixstatic.com/media/6679be_bd5889dee62f4357bd483c3fd480f027~mv2.png" alt="User Task Flow">
+    </div>
+
+    <div class="divider"></div>
+    <div class="spacer"></div>
+
+    <!-- LAYOUT -->
+    <div class="section-block">
+      <h2 class="section-heading">Layout</h2>
+      <p class="section-body">After I studied the layout, I designed a few rectangle and square containers to fit the new dashboard's entire user interface. The different sizes of containers will contain different information. Each container design will help the pages be more responsive to fit different screen sizes.</p>
+    </div>
+    <div class="spacer"></div>
+    <div class="img-wrap">
+      <img src="https://static.wixstatic.com/media/207209_b43cb4844cbe44f58d41a54001e43397~mv2.png" alt="Layout">
+    </div>
+
+    <div class="divider"></div>
+    <div class="spacer"></div>
+
+    <!-- RESEARCH TO DESIGN -->
+    <div class="section-block">
+      <h2 class="section-heading">Research to Design</h2>
+      <p class="section-body">Two design concepts for the main screens were developed based on this research. The product team conducted A/B testing with the clients and refined the design based on the one that garnered the most favorable reviews.</p>
+    </div>
+    <div class="spacer"></div>
+    <div class="img-row">
+      <img src="https://static.wixstatic.com/media/207209_73165bfe228545c9868acf1942364627~mv2.png" alt="Design Concept A">
+      <img src="https://static.wixstatic.com/media/207209_3b3e5393354640d59aa10e1924905960~mv2.png" alt="Design Concept B">
+    </div>
+
+    <div class="divider"></div>
+    <div class="spacer"></div>
+
+    <!-- NEW DESIGN -->
+    <div class="section-block">
+      <h2 class="section-heading">New Design</h2>
+    </div>
+    <div class="spacer"></div>
+    <div class="img-row" style="padding-bottom:16px;">
+      <img src="https://static.wixstatic.com/media/207209_ad14a07434374515a9b45aa6ce2f27a5~mv2.png" alt="New Design 1">
+      <img src="https://static.wixstatic.com/media/207209_0e47f52b73914ed3b8596011d33c6e0d~mv2.png" alt="New Design 2">
+    </div>
+    <div class="img-row" style="padding-bottom:16px;">
+      <img src="https://static.wixstatic.com/media/207209_ba78bfb7c0b84829866bdea647121937~mv2.png" alt="New Design 3">
+      <img src="https://static.wixstatic.com/media/207209_0ebae679fdfa4d018ffc4b4ee4e6e8eb~mv2.png" alt="New Design 4">
+    </div>
+    <div class="img-row">
+      <img src="https://static.wixstatic.com/media/207209_6fa24d50ebe54b75bb5ce3db4f384d24~mv2.png" alt="New Design 5">
+      <img src="https://static.wixstatic.com/media/207209_faccdc91de3f44d785e4fa2d7f91ac26~mv2.png" alt="New Design 6">
+    </div>
+
+    <div class="divider"></div>
+    <div class="spacer"></div>
+
+    <!-- KEY IMPROVEMENTS -->
+    <div class="section-block">
+      <h2 class="section-heading">Key Improvements</h2>
+      <ul class="improvement-list">
+        <li>
+          <div class="improvement-title">Enhanced Language Support</div>
+          <div class="improvement-desc">Pages exhibit increased flexibility, ensuring seamless support for different languages.</div>
+        </li>
+        <li>
+          <div class="improvement-title">Information Enrichment</div>
+          <div class="improvement-desc">Main pages now provide 40% more information, enhancing content depth.</div>
+        </li>
+        <li>
+          <div class="improvement-title">Responsive Design Implementation</div>
+          <div class="improvement-desc">Design is now responsive, optimizing user experience across various devices.</div>
+        </li>
+        <li>
+          <div class="improvement-title">Streamlined Information Accessibility</div>
+          <div class="improvement-desc">Improved page arrangement eliminates redundancy, making information more accessible.</div>
+        </li>
+        <li>
+          <div class="improvement-title">Established New Branding</div>
+          <div class="improvement-desc">New branding and guidelines have been successfully incorporated into the design.</div>
+        </li>
+        <li>
+          <div class="improvement-title">Design System Integration</div>
+          <div class="improvement-desc">Backed by a robust design system, ensuring consistency and efficiency.</div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="spacer"></div>
+
+  </div><!-- /page-wrap -->
+
+  <!-- FOOTER -->
+  <footer id="contact">
+    <h2 class="footer-title">Let's connect!</h2>
+    <p class="footer-sub">Thank you for taking the time to review my work. If you're interested in further discussion or have any inquiries, please feel free to get in touch.</p>
+    <div class="footer-contacts">
+      <div class="footer-contact-item">
+        <svg class="footer-contact-icon" viewBox="0 0 24 24">
+          <rect x="2" y="4" width="20" height="16" rx="2"/>
+          <path d="M2 7l10 7 10-7"/>
+        </svg>
+        <a href="mailto:woodgate@gmail.com">woodgate@gmail.com</a>
+      </div>
+      <div class="footer-contact-item">
+        <svg class="footer-contact-icon" viewBox="0 0 24 24">
+          <path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 011 1V20a1 1 0 01-1 1C10.61 21 3 13.39 3 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.45.57 3.58a1 1 0 01-.25 1.01l-2.2 2.2z"/>
+        </svg>
+        <a href="tel:+972506381607">+972-50-6381607</a>
+      </div>
+    </div>
+    <a class="footer-explore" href="#">Explore more of my work</a>
+    <hr class="footer-divider">
+    <p class="footer-copy">© 2024 Yoni Levy</p>
+  </footer>
+
+</body>
+</html>
