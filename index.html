@@ -71,18 +71,16 @@
 
     /* ── HERO ── */
     .hero {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
+      height: 100vh;
       position: relative;
-      padding-top: 70px;
       overflow: hidden;
     }
     .hero-text {
-      position: relative;
+      position: absolute;
+      top: calc(50% - 140px);
+      left: 123px;
+      max-width: 700px;
       z-index: 2;
-      padding-left: 123px;
-      max-width: 806px; /* text area ends where image column begins */
     }
     .hero-label {
       font-family: 'wf-medium', sans-serif;
@@ -102,19 +100,18 @@
       letter-spacing: -0.01em;
     }
 
-    /* Hero photo: fixed 378×440px, right-aligned with 123px margin */
+    /* Hero photo: 355×413px matching original, right-aligned, vertically centered */
     .hero-photo {
       position: absolute;
-      right: 123px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 378px;
-      height: 440px;
+      right: 116px;
+      top: calc(50% - 207px);
+      width: 355px;
+      height: 413px;
       z-index: 1;
     }
     .hero-photo img {
-      width: 378px;
-      height: 440px;
+      width: 355px;
+      height: 413px;
       object-fit: contain;
       object-position: center;
     }
@@ -380,8 +377,73 @@
     </div>
     <a class="footer-explore" href="#">Explore more of my work</a>
     <hr class="footer-divider">
+    <div class="footer-bottom-row">
     <p class="footer-copy">© 2024 Yoni Levy</p>
+    <div class="footer-social">
+      <a href="https://www.linkedin.com/in/ynilvy/" target="_blank" class="social-btn" aria-label="LinkedIn">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="white"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+      </a>
+      <a href="https://dribbble.com/ynilvy" target="_blank" class="social-btn" aria-label="Dribbble">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="white"><circle cx="12" cy="12" r="10"/><path d="M8.56 2.75c4.37 6.03 6.02 9.42 8.03 17.72m2.54-15.38c-3.72 4.35-8.94 5.66-16.88 5.85m19.5 1.9c-3.5-.93-6.63-.82-8.94 0-2.58.92-5.01 2.86-7.44 6.32" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+      </a>
+    </div>
+  </div>
   </footer>
 
+
+  <style>
+    /* ── SCROLL ANIMATIONS ── */
+    .anim{opacity:0;transform:translateY(30px);transition:opacity .65s cubic-bezier(.22,1,.36,1),transform .65s cubic-bezier(.22,1,.36,1)}
+    .anim.from-left{transform:translateX(-30px)}
+    .anim.from-right{transform:translateX(30px)}
+    .anim.scale-in{transform:scale(0.97) translateY(8px)}
+    .anim.in{opacity:1!important;transform:none!important}
+    .anim-d1{transition-delay:100ms}
+    .anim-d2{transition-delay:200ms}
+    .anim-d3{transition-delay:320ms}
+    @keyframes bounce-hint{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
+    .scroll-hint svg{animation:bounce-hint 1.6s ease-in-out infinite}
+  </style>
+  <script>
+  (function(){
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+    },{threshold:0.1,rootMargin:'0px 0px -40px 0px'});
+
+    function observe(el){if(el)io.observe(el);}
+    function observeAll(sel){document.querySelectorAll(sel).forEach(function(el){observe(el);});}
+
+    var isIndex=!!document.querySelector('.hero-title');
+    var isAbout=!!document.querySelector('.about-section');
+    var isCase=!!document.querySelector('.case-hero');
+
+    if(isIndex){
+      // Hero: slide in on load
+      var ht=document.querySelector('.hero-text');
+      var hp=document.querySelector('.hero-photo');
+      if(ht){ht.classList.add('anim','from-left');setTimeout(function(){ht.classList.add('in');},80);}
+      if(hp){hp.classList.add('anim','from-right');setTimeout(function(){hp.classList.add('in');},240);}
+      // Projects: fade up on scroll
+      observeAll('.project-section');
+      document.querySelectorAll('.project-section').forEach(function(el){el.classList.add('anim');});
+    }
+
+    if(isAbout){
+      var ap=document.querySelector('.about-photo');
+      var ac=document.querySelector('.about-content');
+      if(ap){ap.classList.add('anim','from-left');setTimeout(function(){ap.classList.add('in');},100);}
+      if(ac){ac.classList.add('anim','from-right');setTimeout(function(){ac.classList.add('in');},260);}
+    }
+
+    if(isCase){
+      document.querySelectorAll('.section-block').forEach(function(el){el.classList.add('anim');observe(el);});
+      document.querySelectorAll('.img-wrap,.img-row,.photo-row,.phones-row,.wireframes-group,.img-row,.stats-row,.about-project').forEach(function(el){el.classList.add('anim','scale-in');observe(el);});
+      document.querySelectorAll('.three-col>div').forEach(function(el,i){el.classList.add('anim');el.style.transitionDelay=(i*110)+'ms';observe(el);});
+    }
+
+    // Footer on all pages
+    document.querySelectorAll('.footer-title,.footer-contacts,.footer-sub').forEach(function(el){el.classList.add('anim');observe(el);});
+  })();
+  </script>
 </body>
 </html>
